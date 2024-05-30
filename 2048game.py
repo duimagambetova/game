@@ -30,21 +30,19 @@ class Game2048:
 
         self.windowWidth = self.blockSize * 4
         self.windowHeight = self.windowWidth
-        self.score = 0  # Initialize the score
-        self.moves = []  # List to store the moves
+        self.score = 0  
+        self.moves = [] 
         pygame.init()
 
-        # create window
         self.window = pygame.display.set_mode((self.windowWidth, self.windowHeight))
         self.myFont = pygame.font.SysFont("Comic Sans MS", 30)
         pygame.display.set_caption("2048")
 
-        # init board status
         self.boardStatus = np.zeros((self.N, self.N))
-        self.addNewNumber()  # add new number to board
+        self.addNewNumber() 
 
-        self.difficulty = difficulty  # Set the difficulty level
-        self.best_time = float("inf")  # Initialize the best time with infinity
+        self.difficulty = difficulty
+        self.best_time = float("inf")  
 
     def addNewNumber(self):
         freePos = list(zip(*np.where(self.boardStatus == 0)))
@@ -52,11 +50,11 @@ class Game2048:
         if len(freePos) > 0:
             pos = random.choice(freePos)
             if self.difficulty == 1:
-                self.boardStatus[pos] = 2  # Generate 2 for difficulty level 1
+                self.boardStatus[pos] = 2  
             elif self.difficulty == 2:
-                self.boardStatus[pos] = random.choice([2, 4])  # Generate 2 or 4 for difficulty level 2
+                self.boardStatus[pos] = random.choice([2, 4]) 
             elif self.difficulty == 3:
-                self.boardStatus[pos] = random.choice([2, 2, 4])  # Generate 2, 2, or 4 for difficulty level 3
+                self.boardStatus[pos] = random.choice([2, 2, 4])  
     def drawBoard(self):
         self.window.fill(self.windowBgColor)
 
@@ -113,7 +111,7 @@ class Game2048:
             else:
                 self.boardStatus[idx, :] = data
 
-            self.moves.append(self.boardStatus.copy())  # Save the current board status
+            self.moves.append(self.boardStatus.copy())  
 
     def isGameOver(self):
         boardStatusBackup = self.boardStatus.copy()
@@ -139,10 +137,9 @@ class Game2048:
                         running = False
 
             if running and not self.isGameOver():
-                start_time = time.time()  # Measure the start time of the move
+                start_time = time.time() 
 
-                # Perform bot's move
-                # In this example, we will make a random move with a slight delay
+                
                 randomMove = random.choice(["U", "D", "L", "R"])
                 self.move(randomMove)
                 self.addNewNumber()
@@ -153,7 +150,7 @@ class Game2048:
                     print("Final Score:", self.score)
                     return
 
-                end_time = time.time()  # Measure the end time of the move
+                end_time = time.time() 
                 move_time = end_time - start_time
 
                 if move_time < self.best_time:
